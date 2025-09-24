@@ -1,3 +1,5 @@
+import { SignUpContainer } from "@/features/auth";
+
 export default function SignUpPage() {
-  return <div>S</div>;
+  return <SignUpContainer />;
 }

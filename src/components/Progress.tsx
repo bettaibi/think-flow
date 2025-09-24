@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 
 export interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -24,6 +26,27 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
     ref
   ) => {
     const percentage = Math.min(Math.max((value / max) * 100, 0), 100);
+
+    // Add keyframes for indeterminate animation on client side only
+    React.useEffect(() => {
+      if (typeof document !== "undefined") {
+        const styleId = "progress-keyframes";
+
+        // Check if style already exists
+        if (!document.getElementById(styleId)) {
+          const style = document.createElement("style");
+          style.id = styleId;
+          style.textContent = `
+            @keyframes progress-slide {
+              0% { transform: translateX(-100%); }
+              50% { transform: translateX(0%); }
+              100% { transform: translateX(100%); }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      }
+    }, []);
 
     const variantClasses = {
       default: "bg-primary",
@@ -81,17 +104,6 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
   }
 );
 Progress.displayName = "Progress";
-
-// Add keyframes for indeterminate animation
-const style = document.createElement("style");
-style.textContent = `
-  @keyframes progress-slide {
-    0% { transform: translateX(-100%); }
-    50% { transform: translateX(0%); }
-    100% { transform: translateX(100%); }
-  }
-`;
-document.head.appendChild(style);
 
 export { Progress };
 

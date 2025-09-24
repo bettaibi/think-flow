@@ -19,6 +19,7 @@ export {
 } from "./Dialog";
 export { Label } from "./Label";
 export { Select, AdvancedSelect } from "./Select";
+export { Toaster } from "./sonner";
 
 // Export types for TypeScript
 export type { InputProps } from "./Input";

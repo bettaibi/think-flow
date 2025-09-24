@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 
 export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {

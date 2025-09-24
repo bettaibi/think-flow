@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 
 export interface DialogProps {
@@ -65,7 +67,7 @@ const DialogTrigger: React.FC<DialogTriggerProps> = ({
   const { onOpenChange } = React.useContext(DialogContext);
 
   if (asChild) {
-    return React.cloneElement(children as React.ReactElement, {
+    return React.cloneElement(children as React.ReactElement<any>, {
       onClick: () => onOpenChange(true),
     });
   }
