@@ -1,26 +1,107 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Professional Dark Mode Color Palette - Based on #232324 */
+
+  /* Primary brand colors */
+  --color-primary: #3b82f6;
+  --color-primary-foreground: #ffffff;
+
+  /* Secondary colors */
+  --color-secondary: #2a2a2b;
+  --color-secondary-foreground: #e5e5e5;
+
+  /* Accent colors */
+  --color-accent: #06b6d4;
+  --color-accent-foreground: #ffffff;
+
+  /* Background and surface colors */
+  --color-background: #232324;
+  --color-foreground: #ffffff;
+
+  /* Muted colors for secondary content */
+  --color-muted: #2a2a2b;
+  --color-muted-foreground: #a1a1a3;
+
+  /* Card and elevated surfaces */
+  --color-card: #2a2a2b;
+  --color-card-foreground: #ffffff;
+
+  /* Popover and overlay surfaces */
+  --color-popover: #2f2f30;
+  --color-popover-foreground: #ffffff;
+
+  /* Interactive elements */
+  --color-border: #3a3a3c;
+  --color-input: #2a2a2b;
+  --color-ring: #3b82f6;
+
+  /* Semantic colors */
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+
+  --color-success: #22c55e;
+  --color-success-foreground: #ffffff;
+
+  --color-warning: #f59e0b;
+  --color-warning-foreground: #000000;
+
+  --color-info: #06b6d4;
+  --color-info-foreground: #ffffff;
+
+  /* Design tokens */
+  --radius: 0.5rem;
+
+  /* Custom shadows optimized for dark backgrounds */
+  --shadow-soft: 0 2px 8px 0 rgb(0 0 0 / 0.25);
+  --shadow-soft-lg: 0 8px 32px 0 rgb(0 0 0 / 0.25);
+  --shadow-glow: 0 0 20px rgb(59 130 246 / 0.3);
+  --shadow-glow-lg: 0 0 40px rgb(59 130 246 / 0.2);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Global styles */
+* {
+  border-color: var(--color-border);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth transitions for interactive elements */
+* {
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted-foreground);
+}
+
+/* Text selection styling */
+::selection {
+  background-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  color: var(--color-foreground);
 }
