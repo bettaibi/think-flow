@@ -2,3 +2,8 @@ export * from "./components/media-folders";
 export * from "./components/video-media";
 export * from "./components/audio-media";
 export * from "./components/file-media";
+export * from "./components/image-media";
+export * from "./components/media-story";
+export * from "./components/image-viewer";
+export * from "./components/media-search";
+export * from "./types";
