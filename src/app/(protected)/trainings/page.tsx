@@ -108,7 +108,7 @@ const mockBacklogTrainings: TrainingProps[] = [
   },
 ];
 
-export default function TrainingsPage() {
+export default async function TrainingsPage() {
   return (
     <div className="min-h-screen bg-background p-6 space-y-8">
       <div className="max-w-7xl mx-auto">

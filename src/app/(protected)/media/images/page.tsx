@@ -108,7 +108,7 @@ const mockImages: MediaProps[] = [
   },
 ];
 
-export default function ImagesPage() {
+export default async function ImagesPage() {
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto">

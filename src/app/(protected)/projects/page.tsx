@@ -99,7 +99,7 @@ const mockBacklogProjects: ProjectProps[] = [
   },
 ];
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
   return (
     <div className="min-h-screen bg-background p-6 space-y-8">
       <div className="max-w-7xl mx-auto">

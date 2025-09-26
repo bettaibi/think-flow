@@ -70,7 +70,7 @@ const mockAudios: MediaProps[] = [
   },
 ];
 
-export default function AudioPage() {
+export default async function AudioPage() {
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto">

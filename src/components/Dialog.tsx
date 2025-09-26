@@ -67,8 +67,14 @@ const DialogTrigger: React.FC<DialogTriggerProps> = ({
   const { onOpenChange } = React.useContext(DialogContext);
 
   if (asChild) {
-    return React.cloneElement(children as React.ReactElement<any>, {
-      onClick: () => onOpenChange(true),
+    const child = children as React.ReactElement<{
+      onClick?: (e: React.MouseEvent) => void;
+    }>;
+    return React.cloneElement(child, {
+      onClick: (e: React.MouseEvent) => {
+        child.props.onClick?.(e);
+        onOpenChange(true);
+      },
     });
   }
 
@@ -94,19 +100,31 @@ const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps>(
 
       if (open) {
         document.addEventListener("keydown", handleEscape);
+        // Prevent body scroll and improve mobile experience
         document.body.style.overflow = "hidden";
+        document.body.style.position = "fixed";
+        document.body.style.width = "100%";
+        document.body.style.top = `-${window.scrollY}px`;
       }
 
       return () => {
         document.removeEventListener("keydown", handleEscape);
-        document.body.style.overflow = "unset";
+        // Restore body scroll
+        const scrollY = document.body.style.top;
+        document.body.style.overflow = "";
+        document.body.style.position = "";
+        document.body.style.width = "";
+        document.body.style.top = "";
+        if (scrollY) {
+          window.scrollTo(0, parseInt(scrollY || "0") * -1);
+        }
       };
     }, [open, onOpenChange, onClose]);
 
     if (!mounted || !open) return null;
 
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
         {/* Backdrop */}
         <div
           className="fixed inset-0 bg-background/80 backdrop-blur-sm"
@@ -120,8 +138,12 @@ const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps>(
         <div
           ref={ref}
           className={`
-            relative z-50 grid w-full max-w-lg gap-4 border bg-background p-6 shadow-lg 
-            duration-200 sm:rounded-lg animate-in fade-in-0 zoom-in-95
+            relative z-50 grid w-full max-w-lg gap-4 border bg-background shadow-lg 
+            duration-200 animate-in fade-in-0 
+            m-0 rounded-t-lg sm:rounded-lg sm:m-4
+            max-h-[95vh] sm:max-h-[85vh] overflow-y-auto
+            slide-in-from-bottom-2 sm:zoom-in-95
+            p-4 sm:p-6
             ${className || ""}
           `.trim()}
           {...props}
@@ -129,7 +151,7 @@ const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps>(
           {children}
           {showClose && (
             <button
-              className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
+              className="absolute right-2 top-2 sm:right-4 sm:top-4 rounded-full p-2 opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none touch-manipulation"
               onClick={() => {
                 onOpenChange(false);
                 onClose?.();
@@ -137,7 +159,7 @@ const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps>(
             >
               <span className="sr-only">Close</span>
               <svg
-                className="h-4 w-4"
+                className="h-5 w-5 sm:h-4 sm:w-4"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -162,7 +184,7 @@ const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
   ({ className, children, ...props }, ref) => (
     <div
       ref={ref}
-      className={`flex flex-col space-y-1.5 text-center sm:text-left ${
+      className={`flex flex-col space-y-2 sm:space-y-1.5 text-left pr-8 sm:pr-0 ${
         className || ""
       }`}
       {...props}
@@ -177,7 +199,7 @@ const DialogTitle = React.forwardRef<HTMLHeadingElement, DialogTitleProps>(
   ({ className, children, ...props }, ref) => (
     <h3
       ref={ref}
-      className={`text-lg font-semibold leading-none tracking-tight ${
+      className={`text-xl sm:text-lg font-semibold leading-tight sm:leading-none tracking-tight ${
         className || ""
       }`}
       {...props}
@@ -194,7 +216,9 @@ const DialogDescription = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <p
     ref={ref}
-    className={`text-sm text-muted-foreground ${className || ""}`}
+    className={`text-base sm:text-sm text-muted-foreground leading-relaxed ${
+      className || ""
+    }`}
     {...props}
   >
     {children}
@@ -206,7 +230,7 @@ const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
   ({ className, children, ...props }, ref) => (
     <div
       ref={ref}
-      className={`flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 ${
+      className={`flex flex-col-reverse gap-3 sm:flex-row sm:justify-end sm:gap-2 sm:space-x-0 pt-2 ${
         className || ""
       }`}
       {...props}

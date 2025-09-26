@@ -68,7 +68,7 @@ const mockVideos: MediaProps[] = [
   },
 ];
 
-export default function VideosPage() {
+export default async function VideosPage() {
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto">

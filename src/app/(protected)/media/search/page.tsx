@@ -260,7 +260,7 @@ const allMockMedia: MediaProps[] = [
   },
 ];
 
-export default function MediaSearchPage() {
+export default async function MediaSearchPage() {
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto">
