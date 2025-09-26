@@ -124,7 +124,7 @@ const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps>(
     if (!mounted || !open) return null;
 
     return (
-      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4">
         {/* Backdrop */}
         <div
           className="fixed inset-0 bg-background/80 backdrop-blur-sm"
@@ -140,7 +140,7 @@ const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps>(
           className={`
             relative z-50 grid w-full max-w-lg gap-4 border bg-background shadow-lg 
             duration-200 animate-in fade-in-0 
-            m-0 rounded-t-lg sm:rounded-lg sm:m-4
+            m-0 rounded-t-lg sm:rounded-lg sm:m-0
             max-h-[95vh] sm:max-h-[85vh] overflow-y-auto
             slide-in-from-bottom-2 sm:zoom-in-95
             p-4 sm:p-6

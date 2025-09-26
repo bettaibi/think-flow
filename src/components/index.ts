@@ -34,6 +34,7 @@ export {
   DropdownMenuSubTrigger,
   DropdownMenuRadioGroup,
 } from "./DropdownMenu";
+export { Popover, PopoverTrigger, PopoverContent } from "./Popover";
 export { Label } from "./Label";
 export { Select, AdvancedSelect } from "./Select";
 export { Toaster } from "./sonner";
@@ -59,3 +60,5 @@ export type {
 } from "./Dialog";
 export type { LabelProps } from "./Label";
 export type { SelectProps, SelectOption, AdvancedSelectProps } from "./Select";
+
+// Popover types are handled by Radix UI
