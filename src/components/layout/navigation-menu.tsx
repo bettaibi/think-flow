@@ -40,9 +40,11 @@ function CreateNewButton() {
     <>
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
         <PopoverTrigger asChild>
-          <button className="relative top-[-29px] flex items-center border-t p-4 justify-center h-13 w-13 border-b-0 border-x-0 rounded-full border-border bg-background/95 backdrop-blur-sm hover:bg-primary/10 transition-colors touch-manipulation">
-            <FontAwesomeIcon icon={faPlus} className="h-5 w-5" />
-          </button>
+          <div className="relative top-[-29px] flex items-center border-t p-4 justify-center h-14 w-14 border-b-0 border-x-0 rounded-full border-border bg-background/95 backdrop-blur-sm transition-colors touch-manipulation">
+            <button className="relative  flex items-center p-4 justify-center h-11 w-11 rounded-full  bg-primary shadow-soft cursor-pointer ">
+              <FontAwesomeIcon icon={faPlus} className="h-5 w-5" />
+            </button>
+          </div>
         </PopoverTrigger>
         <PopoverContent
           className="w-52 p-1"
@@ -148,7 +150,7 @@ export function NavigationMenu() {
       <Link
         href="/projects"
         className={cn(
-          "group flex flex-col items-center gap-1 hover:text-primary p-2 rounded-lg transition-colors",
+          "group flex flex-col items-center gap-1 hover:text-primary p-2 rounded-lg transition-colors w-[60px]",
           isActive("/projects") ? "text-primary" : "text-muted-foreground"
         )}
       >
@@ -173,7 +175,7 @@ export function NavigationMenu() {
       <Link
         href="/trainings"
         className={cn(
-          "group flex flex-col items-center gap-1 hover:text-primary p-2 rounded-lg transition-colors",
+          "group flex flex-col items-center gap-1 hover:text-primary p-2 rounded-lg transition-colors w-[60px]",
           isActive("/trainings") ? "text-primary" : "text-muted-foreground"
         )}
       >
@@ -200,7 +202,7 @@ export function NavigationMenu() {
       <Link
         href="/media"
         className={cn(
-          "group flex flex-col items-center gap-1 hover:text-primary p-2 rounded-lg transition-colors",
+          "group flex flex-col items-center gap-1 hover:text-primary p-2 rounded-lg transition-colors w-[60px]",
           isActive("/media") ? "text-primary" : "text-muted-foreground"
         )}
       >
@@ -225,7 +227,7 @@ export function NavigationMenu() {
       <Link
         href="/sticky-note"
         className={cn(
-          "group flex flex-col items-center gap-1 hover:text-primary p-2 rounded-lg transition-colors",
+          "group flex flex-col items-center gap-1 hover:text-primary p-2 rounded-lg transition-colors w-[60px]",
           isActive("/sticky-note") ? "text-primary" : "text-muted-foreground"
         )}
       >
