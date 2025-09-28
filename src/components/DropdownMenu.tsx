@@ -9,7 +9,7 @@ import {
   faCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/cn";
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
 

@@ -1,4 +1,5 @@
 import { NavigationMenu } from "@/components/layout/navigation-menu";
+import { auth } from "@/lib/auth";
 import React from "react";
 
 export default async function ProtectedLayout({
@@ -7,6 +8,9 @@ export default async function ProtectedLayout({
   children: React.ReactNode;
 }) {
   // AUth Session
+
+  const session = await auth();
+  console.log("session ************", session);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
