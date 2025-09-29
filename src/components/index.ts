@@ -38,6 +38,12 @@ export { Popover, PopoverTrigger, PopoverContent } from "./Popover";
 export { Label } from "./Label";
 export { Select, AdvancedSelect } from "./Select";
 export { Toaster } from "./sonner";
+export {
+  Carousel,
+  CarouselItem,
+  ItemCarousel,
+  type CarouselApi,
+} from "./Carousel";
 
 // Export types for TypeScript
 export type { InputProps } from "./Input";

@@ -2,6 +2,7 @@
 import { ProjectProps, ProjectPriority, ProjectStatus } from "../types";
 import { Paper } from "@/components/Paper";
 import { Progress } from "@/components/Progress";
+import { ItemCarousel } from "@/components/Carousel";
 
 interface Props {
   recentProjects: ProjectProps[];
@@ -86,101 +87,105 @@ export function RecentProjectsList({ recentProjects }: Props) {
         </div>
       </div>
 
-      <div className="overflow-x-auto scrollbar-hide">
-        <div className="flex gap-4 pb-4">
-          {recentProjects.map((project) => (
-            <Paper
-              key={project.id}
-              variant="elevated"
-              className="group hover:shadow-glow transition-all duration-300 cursor-pointer border-border/50 hover:border-primary/30 flex-shrink-0"
-              style={{ width: "350px" }}
-            >
-              <div className="space-y-4">
-                {/* Header with name and priority */}
-                <div className="flex items-start justify-between">
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-foreground text-lg truncate group-hover:text-primary transition-colors">
-                      {project.name}
-                    </h3>
-                    {project.description && (
-                      <p className="text-muted-foreground text-sm mt-1 line-clamp-2">
-                        {project.description}
-                      </p>
-                    )}
-                  </div>
-                  <div
-                    className={`
-                  ml-3 px-2 py-1 rounded-md text-xs font-medium border whitespace-nowrap
-                  ${getPriorityColor(project.priority)}
-                `}
-                  >
-                    {project.priority.toUpperCase()}
-                  </div>
+      <ItemCarousel
+        items={recentProjects}
+        itemBasis="350px"
+        showNavigation={false}
+        showDots={false}
+        opts={{
+          align: "start",
+          containScroll: "trimSnaps",
+        }}
+        renderItem={(project) => (
+          <Paper
+            variant="elevated"
+            className="group hover:shadow-glow transition-all duration-300 cursor-pointer border-border/50 hover:border-primary/30 h-full"
+          >
+            <div className="space-y-4">
+              {/* Header with name and priority */}
+              <div className="flex items-start justify-between">
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-foreground text-lg truncate group-hover:text-primary transition-colors">
+                    {project.name}
+                  </h3>
+                  {project.description && (
+                    <p className="text-muted-foreground text-sm mt-1 line-clamp-2">
+                      {project.description}
+                    </p>
+                  )}
                 </div>
-
-                {/* Status and Progress */}
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div
-                      className={`
-                    px-2 py-1 rounded-md text-xs font-medium border
-                    ${getStatusColor(project.status)}
-                  `}
-                    >
-                      {formatStatus(project.status)}
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      {project.progress}% complete
-                    </div>
-                  </div>
-
-                  <Progress
-                    value={project.progress}
-                    variant={
-                      project.progress >= 80
-                        ? "success"
-                        : project.progress >= 50
-                        ? "default"
-                        : "warning"
-                    }
-                    size="sm"
-                  />
-                </div>
-
-                {/* Tags */}
-                {project.tags && project.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-1">
-                    {project.tags.slice(0, 3).map((tag, index) => (
-                      <span
-                        key={index}
-                        className="px-2 py-1 bg-muted/30 text-muted-foreground text-xs rounded-md border border-border/50"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                    {project.tags.length > 3 && (
-                      <span className="px-2 py-1 bg-muted/30 text-muted-foreground text-xs rounded-md border border-border/50">
-                        +{project.tags.length - 3}
-                      </span>
-                    )}
-                  </div>
-                )}
-
-                {/* Footer with time info */}
-                <div className="flex items-center justify-between pt-2 border-t border-border/30">
-                  <div className="text-xs text-muted-foreground">
-                    Updated {formatTimeAgo(project.updatedAt)}
-                  </div>
-                  <div className="text-xs text-muted-foreground flex items-center gap-1">
-                    <span className="text-primary">⏱</span>
-                    {project.estimatedTime}h est.
-                  </div>
+                <div
+                  className={`
+                ml-3 px-2 py-1 rounded-md text-xs font-medium border whitespace-nowrap
+                ${getPriorityColor(project.priority)}
+              `}
+                >
+                  {project.priority.toUpperCase()}
                 </div>
               </div>
-            </Paper>
-          ))}
-        </div>
-      </div>
+
+              {/* Status and Progress */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div
+                    className={`
+                  px-2 py-1 rounded-md text-xs font-medium border
+                  ${getStatusColor(project.status)}
+                `}
+                  >
+                    {formatStatus(project.status)}
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    {project.progress}% complete
+                  </div>
+                </div>
+
+                <Progress
+                  value={project.progress}
+                  variant={
+                    project.progress >= 80
+                      ? "success"
+                      : project.progress >= 50
+                      ? "default"
+                      : "warning"
+                  }
+                  size="sm"
+                />
+              </div>
+
+              {/* Tags */}
+              {project.tags && project.tags.length > 0 && (
+                <div className="flex flex-wrap gap-1">
+                  {project.tags.slice(0, 3).map((tag, index) => (
+                    <span
+                      key={index}
+                      className="px-2 py-1 bg-muted/30 text-muted-foreground text-xs rounded-md border border-border/50"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                  {project.tags.length > 3 && (
+                    <span className="px-2 py-1 bg-muted/30 text-muted-foreground text-xs rounded-md border border-border/50">
+                      +{project.tags.length - 3}
+                    </span>
+                  )}
+                </div>
+              )}
+
+              {/* Footer with time info */}
+              <div className="flex items-center justify-between pt-2 border-t border-border/30">
+                <div className="text-xs text-muted-foreground">
+                  Updated {formatTimeAgo(project.updatedAt)}
+                </div>
+                <div className="text-xs text-muted-foreground flex items-center gap-1">
+                  <span className="text-primary">⏱</span>
+                  {project.estimatedTime}h est.
+                </div>
+              </div>
+            </div>
+          </Paper>
+        )}
+      />
     </div>
   );
 }

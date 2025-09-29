@@ -1,7 +1,15 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { MediaStoryProps, MediaType } from "../types";
 import { Button } from "@/components/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronUp,
+  faChevronDown,
+  faPlay,
+  faPause,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 
 export function MediaStory({
   isOpen,
@@ -18,6 +26,37 @@ export function MediaStory({
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const currentMedia = mediaItems[currentIndex];
+
+  const handleNext = useCallback(() => {
+    if (currentIndex < mediaItems.length - 1) {
+      onIndexChange(currentIndex + 1);
+      setProgress(0);
+      setCurrentTime(0);
+    }
+  }, [currentIndex, mediaItems.length, onIndexChange]);
+
+  const handlePrevious = useCallback(() => {
+    if (currentIndex > 0) {
+      onIndexChange(currentIndex - 1);
+      setProgress(0);
+      setCurrentTime(0);
+    }
+  }, [currentIndex, onIndexChange]);
+
+  const togglePlayPause = useCallback(() => {
+    const media =
+      currentMedia.type === MediaType.VIDEO
+        ? videoRef.current
+        : audioRef.current;
+    if (!media) return;
+
+    if (isPlaying) {
+      media.pause();
+    } else {
+      media.play();
+    }
+    setIsPlaying(!isPlaying);
+  }, [currentMedia.type, isPlaying]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -52,38 +91,14 @@ export function MediaStory({
 
     document.addEventListener("keydown", handleKeyPress);
     return () => document.removeEventListener("keydown", handleKeyPress);
-  }, [isOpen, currentIndex]);
-
-  const handleNext = () => {
-    if (currentIndex < mediaItems.length - 1) {
-      onIndexChange(currentIndex + 1);
-      setProgress(0);
-      setCurrentTime(0);
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentIndex > 0) {
-      onIndexChange(currentIndex - 1);
-      setProgress(0);
-      setCurrentTime(0);
-    }
-  };
-
-  const togglePlayPause = () => {
-    const media =
-      currentMedia.type === MediaType.VIDEO
-        ? videoRef.current
-        : audioRef.current;
-    if (!media) return;
-
-    if (isPlaying) {
-      media.pause();
-    } else {
-      media.play();
-    }
-    setIsPlaying(!isPlaying);
-  };
+  }, [
+    isOpen,
+    currentIndex,
+    onClose,
+    handlePrevious,
+    handleNext,
+    togglePlayPause,
+  ]);
 
   const handleTimeUpdate = () => {
     const media =
@@ -138,7 +153,7 @@ export function MediaStory({
         className="absolute top-4 right-4 z-10 text-white hover:bg-white/20"
         onClick={onClose}
       >
-        ✕
+        <FontAwesomeIcon icon={faTimes} className="h-5 w-5" />
       </Button>
 
       {/* Navigation buttons */}
@@ -146,10 +161,10 @@ export function MediaStory({
         <Button
           variant="ghost"
           size="icon"
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-white hover:bg-white/20"
+          className="absolute top-6 left-1/2 -translate-x-1/2 z-10 text-white hover:bg-white/20 h-12 w-12 rounded-full bg-black/30 border border-white/20"
           onClick={handlePrevious}
         >
-          ↑
+          <FontAwesomeIcon icon={faChevronUp} className="h-6 w-6" />
         </Button>
       )}
 
@@ -157,10 +172,10 @@ export function MediaStory({
         <Button
           variant="ghost"
           size="icon"
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-10 text-white hover:bg-white/20"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 text-white hover:bg-white/20 h-12 w-12 rounded-full bg-black/30 border border-white/20"
           onClick={handleNext}
         >
-          ↓
+          <FontAwesomeIcon icon={faChevronDown} className="h-6 w-6" />
         </Button>
       )}
 
@@ -247,7 +262,10 @@ export function MediaStory({
                 className="text-white hover:bg-white/20"
                 onClick={togglePlayPause}
               >
-                {isPlaying ? "⏸" : "▶"}
+                <FontAwesomeIcon
+                  icon={isPlaying ? faPause : faPlay}
+                  className="h-4 w-4"
+                />
               </Button>
               <span className="text-sm text-white/80">
                 {currentIndex + 1} / {mediaItems.length}
