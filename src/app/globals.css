@@ -114,3 +114,21 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
 }
+
+/* Touch mode for desktop screens */
+.touch-enabled {
+  touch-action: pan-x pan-y; /* Enable touch panning */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  scroll-behavior: smooth; /* Smooth scrolling behavior */
+  -webkit-touch-callout: none; /* Disable callout on long press */
+  -webkit-user-select: none; /* Disable text selection on touch */
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Enable touch scrolling for all scrollable elements */
+* {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}

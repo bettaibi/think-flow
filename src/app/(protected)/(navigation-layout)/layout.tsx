@@ -1,7 +1,7 @@
 import { NavigationMenu } from "@/components/layout/navigation-menu";
 import React from "react";
 
-export default async function ProtectedLayout({
+export default async function NavigationLayout({
   children,
 }: {
   children: React.ReactNode;
