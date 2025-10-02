@@ -10,7 +10,7 @@ export default async function ProjectWorkflowLayout({
   projectBoard: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen min-w-screen bg-background flex flex-row overflow-x-scroll snap-x snap-mandatory scrollbar-hide touch-enabled">
+    <div className="min-h-screen min-w-screen layout-scroll-snap bg-background flex flex-row overflow-x-scroll snap-x snap-mandatory scrollbar-hide">
       {projectBrainstorming}
       {projectSchedule}
       {projectBoard}
