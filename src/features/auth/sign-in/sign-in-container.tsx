@@ -2,11 +2,18 @@
 
 import Link from "next/link";
 import { Button, Paper } from "@/components";
-import { signIn } from "next-auth/react";
+import { signinWithSocial } from "../actions/signin-with-social";
 
 export function SignInContainer() {
-  const handleGitHubSignIn = () => {
-    signIn("github", { callbackUrl: "/projects" });
+  const handleSignIn = async (provider: "github" | "google") => {
+    try {
+      const { url } = await signinWithSocial(provider);
+      if (url) {
+        window.location.href = url;
+      }
+    } catch (err) {
+      console.error(`Failed to Sign in with ${provider}`, err);
+    }
   };
 
   return (
@@ -26,7 +33,7 @@ export function SignInContainer() {
         {/* GitHub Sign In */}
         <Paper className="p-8">
           <Button
-            onClick={handleGitHubSignIn}
+            onClick={() => handleSignIn("github")}
             className="w-full h-12 text-base"
             variant="default"
           >
