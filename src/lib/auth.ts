@@ -11,10 +11,22 @@ export const auth = betterAuth({
     provider: "sqlite",
     schema: { ...schema },
   }),
+  session: {
+    expiresIn: 60 * 60 * 24 * 40, // 40 days
+    cookieCache: {
+      enabled: true,
+      maxAge: 60 * 60 * 24 * 10, // 10 days,
+    },
+  },
   advanced: {
     useSecureCookies: isProduction,
     crossSubDomainCookies: {
       enabled: isProduction,
+    },
+    defaultCookieAttributes: {
+      secure: isProduction,
+      sameSite: "Lax",
+      httpOnly: true,
     },
   },
   baseURL: process.env.BETTER_AUTH_URL!,
