@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "./utils/getServerSession";
+// import { getServerSession } from "./utils/getServerSession";
+import { getCookieCache } from "better-auth/cookies";
+import { application } from "./config/app-config";
 
 const PROTECTED_ROUTES = [
   "/projects",
@@ -19,7 +21,12 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  const session = await getServerSession();
+  /**
+   * This is NOT Secure
+   * getCookieCache doesn't sign and validate the cookie. it checks only whether there is a cookie or not. (minimize DB calls)
+   * For security: use getServerSession utility function
+   */
+  const session = await getCookieCache(req, { cookiePrefix: application.name });
 
   // Guard routes
   if (isProtectedRoute && !session) {

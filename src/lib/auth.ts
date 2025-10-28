@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { nextCookies } from "better-auth/next-js";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "./db";
+import { application } from "@/config/app-config";
 import * as schema from "../db/schema";
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -11,17 +12,20 @@ export const auth = betterAuth({
     provider: "sqlite",
     schema: { ...schema },
   }),
+  /** Secondary storage is recommend to store session such as redis, KV, etc... **/
   session: {
-    expiresIn: 60 * 60 * 24 * 40, // 40 days
+    expiresIn: 60 * 60 * 24 * 30, // 30 days
+    updateAge: 60 * 60 * 24 * 7,
     cookieCache: {
       enabled: true,
-      maxAge: 60 * 60 * 24 * 10, // 10 days,
+      maxAge: 60 * 60 * 24 * 14, // 14 days,
     },
   },
   advanced: {
+    cookiePrefix: application.name,
     useSecureCookies: isProduction,
     crossSubDomainCookies: {
-      enabled: isProduction,
+      enabled: false,
     },
     defaultCookieAttributes: {
       secure: isProduction,
@@ -37,6 +41,11 @@ export const auth = betterAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
       scope: ["email", "profile"],
     },
+  },
+  rateLimit: {
+    enabled: true,
+    window: 60,
+    max: 10,
   },
 
   plugins: [nextCookies()],
