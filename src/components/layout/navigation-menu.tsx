@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { cn } from "@/utils/cn";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,17 +12,21 @@ import {
   faPlus,
   faProjectDiagram,
   faCalendarAlt,
+  faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components";
 import {
   CreateProjectDialog,
   CreateTrainingDialog,
 } from "@/components/dialogs";
+import { authClient } from "@/lib/auth-client";
 
 function CreateNewButton() {
   const [isProjectDialogOpen, setIsProjectDialogOpen] = useState(false);
   const [isTrainingDialogOpen, setIsTrainingDialogOpen] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+  const router = useRouter();
 
   const handleCreateProject = (projectData: unknown) => {
     console.log("Creating project:", projectData);
@@ -34,6 +38,19 @@ function CreateNewButton() {
     console.log("Creating training:", trainingData);
     // In a real implementation, this would call an API to create the training
     setIsPopoverOpen(false);
+  };
+
+  const handleLogout = async () => {
+    try {
+      const { data } = await authClient.signOut();
+      console.log(data);
+
+      if (data?.success) {
+        router.refresh();
+      }
+    } catch (err) {
+      console.error("Failed to Logout", err);
+    }
   };
 
   return (
@@ -116,6 +133,25 @@ function CreateNewButton() {
                 </div>
               </div>
             </Link>
+
+            {/* Create New Training */}
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2.5 w-full p-2.5 text-left hover:bg-primary/5 hover:text-foreground rounded-md transition-colors group"
+            >
+              <div className="w-7 h-7 rounded-full bg-primary/10 group-hover:bg-primary/15 flex items-center justify-center transition-colors">
+                <FontAwesomeIcon
+                  icon={faSignOutAlt}
+                  className="h-3.5 w-3.5 text-primary"
+                />
+              </div>
+              <div className="flex-1">
+                <div className="font-medium text-sm">Logout</div>
+                <div className="text-xs text-muted-foreground group-hover:text-muted-foreground/80">
+                  click to log out from the Application
+                </div>
+              </div>
+            </button>
           </div>
         </PopoverContent>
       </Popover>
