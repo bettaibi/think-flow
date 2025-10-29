@@ -1,10 +1,49 @@
 "use client";
 
 import Link from "next/link";
-import { Button, Paper } from "@/components";
+import { Button, Input, Label, Paper } from "@/components";
 import { signinWithSocial } from "../actions/signin-with-social";
+import { zodResolver } from "@hookform/resolvers/zod";
+import z from "zod";
+import { useForm } from "react-hook-form";
+import { signIn } from "@/lib/auth-client";
+
+const MagicLinkSignInSchema = z.object({
+  email: z.email({ message: "Must be a valid email" }),
+});
+
+type FormData = z.infer<typeof MagicLinkSignInSchema>;
 
 export function SignInContainer() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, isLoading },
+  } = useForm<FormData>({
+    resolver: zodResolver(MagicLinkSignInSchema),
+  });
+
+  const onSubmit = async ({ email }: FormData) => {
+    try {
+      const { data, error } = await signIn.magicLink({
+        email,
+        callbackURL: "/projects",
+        newUserCallbackURL: "/projects",
+        errorCallbackURL: "/error",
+      });
+
+      if (data?.status) {
+        console.log("A magic link has been sent to your email.");
+      }
+
+      if (error?.message) {
+        console.log(error.message);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const handleSignIn = async (provider: "github" | "google") => {
     try {
       const { url } = await signinWithSocial(provider);
@@ -32,10 +71,35 @@ export function SignInContainer() {
 
         {/* GitHub Sign In */}
         <Paper className="p-8">
+          {/* Magic link */}
+          <form
+            className="flex flex-col gap-4"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <div className="flex flex-col gap-1">
+              <Label htmlFor="email">Use magic link</Label>
+              <Input type="email" id="email" {...register("email")} />
+              {errors.email && <p>{errors.email.message}</p>}
+            </div>
+
+            <Button
+              className="w-full h-12 text-base"
+              variant="default"
+              type="submit"
+              disabled={isSubmitting || isLoading}
+            >
+              Send Magic Link
+            </Button>
+          </form>
+
+          <div> OR </div>
+
+          {/* Github Button*/}
           <Button
             onClick={() => handleSignIn("github")}
             className="w-full h-12 text-base"
             variant="default"
+            type="button"
           >
             <svg
               className="w-5 h-5 mr-3"

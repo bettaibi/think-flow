@@ -19,7 +19,7 @@ import {
   CreateProjectDialog,
   CreateTrainingDialog,
 } from "@/components/dialogs";
-import { authClient } from "@/lib/auth-client";
+import { signOut } from "@/lib/auth-client";
 
 function CreateNewButton() {
   const [isProjectDialogOpen, setIsProjectDialogOpen] = useState(false);
@@ -42,7 +42,7 @@ function CreateNewButton() {
 
   const handleLogout = async () => {
     try {
-      const { data } = await authClient.signOut();
+      const { data } = await signOut();
       console.log(data);
 
       if (data?.success) {

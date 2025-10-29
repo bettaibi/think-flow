@@ -1,11 +1,16 @@
 import { betterAuth } from "better-auth";
 import { nextCookies } from "better-auth/next-js";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { magicLink } from "better-auth/plugins";
 import { db } from "./db";
 import { application } from "@/config/app-config";
+import { Resend } from "resend";
+
 import * as schema from "../db/schema";
 
 const isProduction = process.env.NODE_ENV === "production";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -48,7 +53,23 @@ export const auth = betterAuth({
     max: 10,
   },
 
-  plugins: [nextCookies()],
+  plugins: [
+    // Magic link plugin
+    magicLink({
+      disableSignUp: true, // Disable using magic link at signup
+      sendMagicLink: async ({ email, url }) => {
+        await resend.emails.send({
+          from: process.env.RESEND_EMAIL!,
+          to: email,
+          subject: `${application.displayName} - Magic Link`,
+          html: `Click the link to login into your account: ${url}`,
+        });
+      },
+    }),
+
+    // ensure nextCookies to be the last plugin in the array
+    nextCookies(),
+  ],
 });
 
 export type Session = typeof auth.$Infer.Session;
