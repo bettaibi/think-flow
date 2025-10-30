@@ -40,5 +40,19 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-
+# drizzle migration
 migration
+
+# OpenNext
+/.open-next
+dist
+
+# wrangler files
+.wrangler
+.env.*
+.dev.vars
+.dev.vars*
+!.dev.vars.example
+!.env*example
+*.log
+backups
