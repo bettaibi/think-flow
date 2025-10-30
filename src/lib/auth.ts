@@ -56,7 +56,7 @@ export const auth = betterAuth({
   plugins: [
     // Magic link plugin
     magicLink({
-      disableSignUp: true, // Disable using magic link at signup
+      disableSignUp: false, // Disable using magic link at signup
       sendMagicLink: async ({ email, url }) => {
         await resend.emails.send({
           from: process.env.RESEND_EMAIL!,
