@@ -5,6 +5,8 @@ import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 initOpenNextCloudflareForDev();
 
 const nextConfig: NextConfig = {
+  output: "standalone",
+
   experimental: {
     typedRoutes: true,
   },
