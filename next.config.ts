@@ -6,10 +6,8 @@ initOpenNextCloudflareForDev();
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  typedRoutes: true,
 
-  experimental: {
-    typedRoutes: true,
-  },
   eslint: {
     ignoreDuringBuilds: true,
   },
