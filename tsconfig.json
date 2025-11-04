@@ -2,11 +2,13 @@
   "compilerOptions": {
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "types": ["./cloudflare-env.d.ts", "node"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
+    "noImplicitAny": false,
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,

@@ -5,6 +5,7 @@ import { magicLink } from "better-auth/plugins";
 import { db } from "./db";
 import { application } from "@/config/app-config";
 import { Resend } from "resend";
+import { cloudflareKVAdapter } from "./kv-adapter";
 
 import * as schema from "../db/schema";
 
@@ -17,15 +18,16 @@ export const auth = betterAuth({
     provider: "sqlite",
     schema: { ...schema },
   }),
-  /** Secondary storage is recommend to store session such as redis, KV, etc... **/
   session: {
     expiresIn: 60 * 60 * 24 * 30, // 30 days
     updateAge: 60 * 60 * 24 * 7,
     cookieCache: {
       enabled: true,
-      maxAge: 60 * 60 * 24 * 14, // 14 days,
-    },
+      maxAge: 60 * 60 * 24 * 14, // 14 days, set time according to your needs (once expired, revalidate again from KV)
+    }
   },
+  // Use Secondary storage to read user session from KV
+  secondaryStorage: await cloudflareKVAdapter(),
   advanced: {
     cookiePrefix: application.name,
     useSecureCookies: isProduction,
