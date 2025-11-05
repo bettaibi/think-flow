@@ -1,10 +1,14 @@
+"use client";
+
 import {
   RecentProjectsList,
   ProjectsBacklog,
   ProjectProps,
   ProjectPriority,
   ProjectStatus,
+  fetchProject,
 } from "@/features/projects";
+import { useQuery } from "@tanstack/react-query";
 
 // Mock data for demonstration
 const mockRecentProjects: ProjectProps[] = [
@@ -99,7 +103,22 @@ const mockBacklogProjects: ProjectProps[] = [
   },
 ];
 
-export default async function ProjectsPage() {
+export default function ProjectsPage() {
+  // Fetch the project List
+  const {data:projects, isLoading} = useQuery({
+    queryKey: ["projects"],
+    queryFn: fetchProject,
+    staleTime:0,
+    refetchOnWindowFocus:false,
+    refetchOnMount:false,
+    refetchOnReconnect:false,
+  });
+
+  console.log(projects);
+
+  if(!projects || isLoading) return <span>Loading...</span>;
+  
+
   return (
     <div className="min-h-screen bg-background p-6 space-y-8">
       <div className="max-w-7xl mx-auto">

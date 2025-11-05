@@ -74,3 +74,22 @@ export const verification = sqliteTable("verification", {
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
 });
+
+/**
+ * Project Table
+ */
+
+export const project = sqliteTable("project", {
+  id: text("id").primaryKey().$defaultFn(()=> crypto.randomUUID()),
+  name: text("name").notNull(),
+  description: text("description"),
+  priority: text("priority", {enum: ["low", "medium", "high"]}).notNull(),
+  status: text("status", {enum: ["pending", "in_progress", "completed", "cancelled"]}).notNull(),
+  estimatedTime: integer("estimated_time").notNull(), // hours
+  progress: integer("progress").notNull(),
+  tags: text("tags"),
+  createdAt: integer("created_at", { mode: "timestamp_ms" }),
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull(),
+});

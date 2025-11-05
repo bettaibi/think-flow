@@ -30,19 +30,24 @@ interface SecondaryStorage {
 }
 
 export async function cloudflareKVAdapter(): Promise<SecondaryStorage> {
-  const {env} = await getCloudflareContext({async: true})
+  const {env} = await getCloudflareContext({async: true});
+  const kv = env.THINK_FLOW_AUTH_SESSION;
+
   return {
     async get(key) {
-      const value = await env.THINK_FLOW_AUTH_SESSION.get(key, 'json');
+      console.log("Getting from KV: ", key)
+      const value = await kv.get(key, 'json');
       return value ?? null;
     },
     async set(key, value, ttl) {
-      await env.THINK_FLOW_AUTH_SESSION.put(key, JSON.stringify(value), {
+      console.log("Setting to KV: ", key)
+      await kv.put(key, JSON.stringify(value), {
         expirationTtl: ttl,
       });
     },
     async delete(key) {
-      await env.THINK_FLOW_AUTH_SESSION.delete(key);
+      console.log("Deleting from KV: ", key)
+      await kv.delete(key);
     },
   };
 }
