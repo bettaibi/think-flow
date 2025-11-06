@@ -22,8 +22,8 @@ export async function middleware(req: NextRequest) {
   }
 
   /**
-   * This is NOT Secure
-   * getCookieCache doesn't sign and validate the cookie. it checks only whether there is a cookie or not. (minimize DB calls)
+   * THIS IS NOT SECURE!
+   * This is the recommended approach to optimistically redirect users
    * For security: use getServerSession utility function
    */
   const session = getSessionCookie(req, {
