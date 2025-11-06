@@ -105,19 +105,14 @@ const mockBacklogProjects: ProjectProps[] = [
 
 export default function ProjectsPage() {
   // Fetch the project List
-  const {data:projects, isLoading} = useQuery({
+  const { data: projects, isLoading } = useQuery({
     queryKey: ["projects"],
     queryFn: fetchProject,
-    staleTime:0,
-    refetchOnWindowFocus:false,
-    refetchOnMount:false,
-    refetchOnReconnect:false,
   });
 
   console.log(projects);
 
-  if(!projects || isLoading) return <span>Loading...</span>;
-  
+  if (!projects || isLoading) return <span>Loading...</span>;
 
   return (
     <div className="min-h-screen bg-background p-6 space-y-8">
