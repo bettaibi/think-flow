@@ -15,7 +15,7 @@ export async function GET() {
       status: 200,
       headers: {
         "Content-Type": "application/json",
-        "Cache-Control": "public, s-maxage=300", // cache 5m at CDN edge
+      //  "Cache-Control": "public, s-maxage=300", // cache 5m at CDN edge
       },
     });
   } catch (err) {

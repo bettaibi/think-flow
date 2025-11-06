@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-// import { getServerSession } from "./utils/getServerSession";
 import { getSessionCookie } from "better-auth/cookies";
 import { application } from "./config/app-config";
 
@@ -8,7 +7,7 @@ const PROTECTED_ROUTES = [
   "/calendar",
   "/trainings",
   "/media",
-  "/sticky-notes",
+  "/sticky-note"
 ];
 
 export async function middleware(req: NextRequest) {
@@ -27,7 +26,6 @@ export async function middleware(req: NextRequest) {
    * For security: use getServerSession utility function
    */
   const session = getSessionCookie(req, {
-    // cookieName: "my_session_cookie",
     cookiePrefix: application.name,
   });
 
