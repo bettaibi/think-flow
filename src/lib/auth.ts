@@ -24,7 +24,7 @@ export const auth = betterAuth({
     cookieCache: {
       enabled: true,
       maxAge: 60 * 60 * 24 * 14, // 14 days, set time according to your needs (once expired, revalidate again from KV)
-    }
+    },
   },
   // Use Secondary storage to read user session from KV
   secondaryStorage: await cloudflareKVAdapter(),
