@@ -1,10 +1,16 @@
-import { drizzle } from "drizzle-orm/libsql";
-import { createClient } from "@libsql/client/web";
+
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { drizzle } from "drizzle-orm/d1";
+import { cache } from "react";
 import * as schema from "@/db/schema";
 
-const turso = createClient({
-  url: process.env.TURSO_DATABASE_URL!,
-  authToken: process.env.TURSO_AUTH_TOKEN!,
+export const getDb = cache(() => {
+  const { env } = getCloudflareContext();
+  return drizzle(env.THINK_FLOW_DB, { schema });
 });
-
-export const db = drizzle(turso, { schema });
+ 
+// This is the one to use for static routes (i.e. ISR/SSG)
+export const getDbAsync = cache(async () => {
+  const { env } = await getCloudflareContext({ async: true });
+  return drizzle(env.THINK_FLOW_DB, { schema });
+});

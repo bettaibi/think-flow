@@ -11,6 +11,11 @@ npx wrangler kv namespace create "BINDING_NAME"
 npx wrangler kv key list --namespace-id <your-namespace-id>
 ```
 
+### D1 Migration
+```sh
+npx wrangler d1 migrations apply DB_BINDING_NAME
+```
+
 
 ### Cache Route handlers
 

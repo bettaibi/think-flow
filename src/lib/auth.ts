@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { nextCookies } from "better-auth/next-js";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { magicLink } from "better-auth/plugins";
-import { db } from "./db";
+import { getDbAsync } from "./db";
 import { application } from "@/config/app-config";
 import { Resend } from "resend";
 import { cloudflareKVAdapter } from "./kv-adapter";
@@ -12,6 +12,8 @@ import * as schema from "../db/schema";
 const isProduction = process.env.NODE_ENV === "production";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+const db = await getDbAsync();
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {

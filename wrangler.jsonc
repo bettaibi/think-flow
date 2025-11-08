@@ -45,5 +45,13 @@
 			"binding": "THINK_FLOW_AUTH_SESSION",
 			"id": "651f3a7cabd5401288058ca04d6718ff"
 		}
+	],
+	"d1_databases": [
+		{
+			"binding": "THINK_FLOW_DB",
+			"database_name": "think-flow-db",
+			"database_id": "bdf19cf8-b493-4e7c-81cf-c3af234b223f",
+			"migrations_dir": "./migration"
+		}
 	]
 }

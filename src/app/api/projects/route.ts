@@ -1,8 +1,9 @@
 import { project } from "@/db/schema";
-import { db } from "@/lib/db";
+import { getDbAsync } from "@/lib/db";
 
 export async function GET() {
   try {
+    const db = await getDbAsync();
     const data = await db.select().from(project);
 
     if (!data)
