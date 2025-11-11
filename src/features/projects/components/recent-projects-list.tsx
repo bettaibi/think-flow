@@ -9,7 +9,7 @@ interface Props {
 }
 
 export function RecentProjectsList({ recentProjects }: Props) {
-  const getPriorityColor = (priority: ProjectPriority) => {
+  const getPriorityColor = (priority: `${ProjectPriority}`) => {
     switch (priority) {
       case ProjectPriority.HIGH:
         return "bg-destructive/10 text-destructive border-destructive/20";
@@ -22,7 +22,7 @@ export function RecentProjectsList({ recentProjects }: Props) {
     }
   };
 
-  const getStatusColor = (status: ProjectStatus) => {
+  const getStatusColor = (status: `${ProjectStatus}`) => {
     switch (status) {
       case ProjectStatus.IN_PROGRESS:
         return "bg-info/10 text-info border-info/20";
@@ -37,7 +37,7 @@ export function RecentProjectsList({ recentProjects }: Props) {
     }
   };
 
-  const formatStatus = (status: ProjectStatus) => {
+  const formatStatus = (status: `${ProjectStatus}`) => {
     return status.replace("_", " ").replace(/\b\w/g, (l) => l.toUpperCase());
   };
 
@@ -96,7 +96,9 @@ export function RecentProjectsList({ recentProjects }: Props) {
           align: "start",
           containScroll: "trimSnaps",
         }}
-        renderItem={(project) => (
+        renderItem={(project) => {
+          const tags=project?.tags?.split(',') || [];
+          return(
           <Paper
             variant="elevated"
             className="group hover:shadow-glow transition-all duration-300 cursor-pointer border-border/50 hover:border-primary/30 h-full"
@@ -154,9 +156,9 @@ export function RecentProjectsList({ recentProjects }: Props) {
               </div>
 
               {/* Tags */}
-              {project.tags && project.tags.length > 0 && (
+              {tags && tags.length > 0 && (
                 <div className="flex flex-wrap gap-1">
-                  {project.tags.slice(0, 3).map((tag, index) => (
+                  {tags.slice(0, 3).map((tag, index) => (
                     <span
                       key={index}
                       className="px-2 py-1 bg-muted/30 text-muted-foreground text-xs rounded-md border border-border/50"
@@ -164,9 +166,9 @@ export function RecentProjectsList({ recentProjects }: Props) {
                       {tag}
                     </span>
                   ))}
-                  {project.tags.length > 3 && (
+                  {tags.length > 3 && (
                     <span className="px-2 py-1 bg-muted/30 text-muted-foreground text-xs rounded-md border border-border/50">
-                      +{project.tags.length - 3}
+                      +{tags.length - 3}
                     </span>
                   )}
                 </div>
@@ -184,7 +186,8 @@ export function RecentProjectsList({ recentProjects }: Props) {
               </div>
             </div>
           </Paper>
-        )}
+        )
+        }}
       />
     </div>
   );
