@@ -1,10 +1,12 @@
 
 // Client handlers
 
+import { fetcher } from "@/lib/fetcher";
+
 // Fetch Project handler
 const fetchProject = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/projects");
+    const res = await fetcher("/api/projects");
     const data = await res.json();
     console.log(data);
     return data;
