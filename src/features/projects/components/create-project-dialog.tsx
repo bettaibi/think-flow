@@ -70,7 +70,8 @@ export function CreateProjectDialog({
       // Reset form and close dialog
       handleClose();
     },
-    onError: () => {
+    onError: (error) => {
+      console.log(error)
       showAlertMessage("Failed to create project", "error")
     }
   });

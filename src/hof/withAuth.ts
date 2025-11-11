@@ -1,3 +1,5 @@
+import "server-only";
+
 /**
  * Use This to protect route handlers
  */

@@ -1,4 +1,4 @@
-"use server";
+import "server-only";
 
 /**
  * Use This to protect server actions
@@ -12,7 +12,7 @@ export function withServerAuth<T extends (...args: any[]) => any>(
 ) {
   return async (...args: Parameters<T>) => {
     const session = await getServerSession();
-    if (!session) throw new Error("Unauthorized");
+    if (!session) throw new Error("Unauthorized", {cause: 401});
 
     return action(session, ...args);
   };
