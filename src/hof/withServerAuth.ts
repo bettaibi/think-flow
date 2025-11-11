@@ -4,7 +4,7 @@
  * Use This to protect server actions
  */
 import { Session } from "@/lib/auth";
-import { getServerSession } from "@/utils/getServerSession";
+import { getServerSession } from "@/lib/getServerSession";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function withServerAuth<T extends (...args: any[]) => any>(

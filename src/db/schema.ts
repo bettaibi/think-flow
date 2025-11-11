@@ -88,7 +88,7 @@ export const project = sqliteTable("project", {
   estimatedTime: integer("estimated_time").notNull(), // hours
   progress: integer("progress").notNull(),
   tags: text("tags"),
-  createdAt: integer("created_at", { mode: "timestamp_ms" }),
+  createdAt: integer("created_at", { mode: "timestamp_ms" }).$defaultFn(() => new Date()).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),

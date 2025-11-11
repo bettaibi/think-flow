@@ -15,11 +15,9 @@ import {
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components";
-import {
-  CreateProjectDialog,
-  CreateTrainingDialog,
-} from "@/components/dialogs";
 import { signOut } from "@/lib/auth-client";
+import { CreateProjectDialog } from "@/features/projects/components/create-project-dialog";
+import { CreateTrainingDialog } from "@/features/trainings/components/create-training-dialog";
 
 function CreateNewButton() {
   const [isProjectDialogOpen, setIsProjectDialogOpen] = useState(false);

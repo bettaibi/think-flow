@@ -8,7 +8,7 @@ declare namespace Cloudflare {
 	interface Env {
 		THINK_FLOW_AUTH_SESSION: KVNamespace;
 		BETTER_AUTH_SECRET: string;
-		BETTER_AUTH_URL: string;
+		BASE_URL: string;
 		GITHUB_CLIENT_ID: string;
 		GITHUB_CLIENT_SECRET: string;
 		TURSO_DATABASE_URL: string;

@@ -15,11 +15,11 @@ export interface ProjectProps {
   id: string;
   name: string;
   description?: string;
-  priority: ProjectPriority;
-  status: ProjectStatus;
+  priority: `${ProjectPriority}`;
+  status: `${ProjectStatus}`;
   estimatedTime: number;
   progress: number;
-  tags?: string[];
+  tags?: string;
   createdAt: string;
   updatedAt: string;
 }

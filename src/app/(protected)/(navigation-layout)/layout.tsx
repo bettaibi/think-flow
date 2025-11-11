@@ -1,5 +1,5 @@
-import { NavigationMenu } from "@/components/layout/navigation-menu";
 import React from "react";
+import { NavigationMenu } from "./_components/navigation-menu";
 
 export default async function NavigationLayout({
   children,

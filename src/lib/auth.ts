@@ -42,8 +42,8 @@ export const auth = betterAuth({
       httpOnly: true,
     },
   },
-  baseURL: process.env.BETTER_AUTH_URL!,
-  trustedOrigins: [process.env.BETTER_AUTH_URL!],
+  baseURL: process.env.BASE_URL!,
+  trustedOrigins: [process.env.BASE_URL!],
   socialProviders: {
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,

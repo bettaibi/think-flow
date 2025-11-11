@@ -6,7 +6,7 @@ import {
   TrainingStatus,
   TrainingType,
 } from "@/features/trainings";
-import { getServerSession } from "@/utils/getServerSession";
+import { getServerSession } from "@/lib/getServerSession";
 
 // Mock data for demonstration
 const mockRecentTrainings: TrainingProps[] = [
