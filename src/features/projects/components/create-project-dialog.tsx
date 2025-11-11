@@ -17,6 +17,7 @@ import { TextArea } from "@/components/TextArea";
 import { Select } from "@/components/Select";
 import { createProject } from "../actions";
 import { useAction } from "@/hooks/useAction";
+import { showAlertMessage } from "@/utils/show-alert-message";
 
 const projectSchema = z.object({
   name: z
@@ -64,13 +65,13 @@ export function CreateProjectDialog({
   });
 
   const {execute, loading: isLoading} = useAction(createProject, {
-    onSuccess: (result) => {
-      console.log(result);
+    onSuccess: () => {
+      showAlertMessage("Project Created Successfully")
       // Reset form and close dialog
       handleClose();
     },
-    onError: (err) => {
-      console.log("Erooooooor: ", err);
+    onError: () => {
+      showAlertMessage("Failed to create project", "error")
     }
   });
 
@@ -80,7 +81,7 @@ export function CreateProjectDialog({
       // API call
       const payload= {
         ...data,
-        progres: 0,
+        progress: 0,
         status: "pending",
       }
       
