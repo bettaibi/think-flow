@@ -1,6 +1,7 @@
 import { fetcher } from "@/lib/fetcher";
 import { queryOptions } from "@tanstack/react-query";
 import { ProjectProps } from "../types";
+import { queryKey } from "@/utils/query-key";
 
 // Fetch Project handler
 const fetchProjects = async () => {
@@ -16,7 +17,7 @@ const fetchProjects = async () => {
 
 export function createProjectsQueryHandler() {
   return queryOptions({
-    queryKey: ["projects"],
+    queryKey: queryKey.GET_PROJECTS_KEY,
     queryFn: fetchProjects,
   });
 }
