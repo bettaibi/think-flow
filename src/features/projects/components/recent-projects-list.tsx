@@ -3,6 +3,7 @@ import { ProjectProps, ProjectPriority, ProjectStatus } from "../types";
 import { Paper } from "@/components/Paper";
 import { Progress } from "@/components/Progress";
 import { ItemCarousel } from "@/components/Carousel";
+import { formatTimeAgo } from "@/utils/format-time-ago";
 
 interface Props {
   recentProjects: ProjectProps[];
@@ -39,21 +40,6 @@ export function RecentProjectsList({ recentProjects }: Props) {
 
   const formatStatus = (status: `${ProjectStatus}`) => {
     return status.replace("_", " ").replace(/\b\w/g, (l) => l.toUpperCase());
-  };
-
-  const formatTimeAgo = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffInHours = Math.floor(
-      (now.getTime() - date.getTime()) / (1000 * 60 * 60)
-    );
-
-    if (diffInHours < 1) return "Just now";
-    if (diffInHours < 24) return `${diffInHours}h ago`;
-    const diffInDays = Math.floor(diffInHours / 24);
-    if (diffInDays < 7) return `${diffInDays}d ago`;
-    const diffInWeeks = Math.floor(diffInDays / 7);
-    return `${diffInWeeks}w ago`;
   };
 
   if (recentProjects.length === 0) {
@@ -97,96 +83,96 @@ export function RecentProjectsList({ recentProjects }: Props) {
           containScroll: "trimSnaps",
         }}
         renderItem={(project) => {
-          const tags=project?.tags?.split(',') || [];
-          return(
-          <Paper
-            variant="elevated"
-            className="group hover:shadow-glow transition-all duration-300 cursor-pointer border-border/50 hover:border-primary/30 h-full"
-          >
-            <div className="space-y-4">
-              {/* Header with name and priority */}
-              <div className="flex items-start justify-between">
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-foreground text-lg truncate group-hover:text-primary transition-colors">
-                    {project.name}
-                  </h3>
-                  {project.description && (
-                    <p className="text-muted-foreground text-sm mt-1 line-clamp-2">
-                      {project.description}
-                    </p>
-                  )}
-                </div>
-                <div
-                  className={`
+          const tags = project?.tags?.split(",") || [];
+          return (
+            <Paper
+              variant="elevated"
+              className="group hover:shadow-glow transition-all duration-300 cursor-pointer border-border/50 hover:border-primary/30 h-full"
+            >
+              <div className="space-y-4">
+                {/* Header with name and priority */}
+                <div className="flex items-start justify-between">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-foreground text-lg truncate group-hover:text-primary transition-colors">
+                      {project.name}
+                    </h3>
+                    {project.description && (
+                      <p className="text-muted-foreground text-sm mt-1 line-clamp-2">
+                        {project.description}
+                      </p>
+                    )}
+                  </div>
+                  <div
+                    className={`
                 ml-3 px-2 py-1 rounded-md text-xs font-medium border whitespace-nowrap
                 ${getPriorityColor(project.priority)}
               `}
-                >
-                  {project.priority.toUpperCase()}
+                  >
+                    {project.priority.toUpperCase()}
+                  </div>
                 </div>
-              </div>
 
-              {/* Status and Progress */}
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <div
-                    className={`
+                {/* Status and Progress */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div
+                      className={`
                   px-2 py-1 rounded-md text-xs font-medium border
                   ${getStatusColor(project.status)}
                 `}
-                  >
-                    {formatStatus(project.status)}
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    {project.progress}% complete
-                  </div>
-                </div>
-
-                <Progress
-                  value={project.progress}
-                  variant={
-                    project.progress >= 80
-                      ? "success"
-                      : project.progress >= 50
-                      ? "default"
-                      : "warning"
-                  }
-                  size="sm"
-                />
-              </div>
-
-              {/* Tags */}
-              {tags && tags.length > 0 && (
-                <div className="flex flex-wrap gap-1">
-                  {tags.slice(0, 3).map((tag, index) => (
-                    <span
-                      key={index}
-                      className="px-2 py-1 bg-muted/30 text-muted-foreground text-xs rounded-md border border-border/50"
                     >
-                      {tag}
-                    </span>
-                  ))}
-                  {tags.length > 3 && (
-                    <span className="px-2 py-1 bg-muted/30 text-muted-foreground text-xs rounded-md border border-border/50">
-                      +{tags.length - 3}
-                    </span>
-                  )}
-                </div>
-              )}
+                      {formatStatus(project.status)}
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      {project.progress}% complete
+                    </div>
+                  </div>
 
-              {/* Footer with time info */}
-              <div className="flex items-center justify-between pt-2 border-t border-border/30">
-                <div className="text-xs text-muted-foreground">
-                  Updated {formatTimeAgo(project.updatedAt)}
+                  <Progress
+                    value={project.progress}
+                    variant={
+                      project.progress >= 80
+                        ? "success"
+                        : project.progress >= 50
+                        ? "default"
+                        : "warning"
+                    }
+                    size="sm"
+                  />
                 </div>
-                <div className="text-xs text-muted-foreground flex items-center gap-1">
-                  <span className="text-primary">⏱</span>
-                  {project.estimatedTime}h est.
+
+                {/* Tags */}
+                {tags && tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1">
+                    {tags.slice(0, 3).map((tag, index) => (
+                      <span
+                        key={index}
+                        className="px-2 py-1 bg-muted/30 text-muted-foreground text-xs rounded-md border border-border/50"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                    {tags.length > 3 && (
+                      <span className="px-2 py-1 bg-muted/30 text-muted-foreground text-xs rounded-md border border-border/50">
+                        +{tags.length - 3}
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                {/* Footer with time info */}
+                <div className="flex items-center justify-between pt-2 border-t border-border/30">
+                  <div className="text-xs text-muted-foreground">
+                    Updated {formatTimeAgo(project.updatedAt)}
+                  </div>
+                  <div className="text-xs text-muted-foreground flex items-center gap-1">
+                    <span className="text-primary">⏱</span>
+                    {project.estimatedTime}h est.
+                  </div>
                 </div>
               </div>
-            </div>
-          </Paper>
-        )
+            </Paper>
+          );
         }}
       />
     </div>

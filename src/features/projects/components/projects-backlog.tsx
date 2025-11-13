@@ -8,7 +8,7 @@ interface Props {
 }
 
 export function ProjectsBacklog({ projects }: Props) {
-  const getPriorityColor = (priority: ProjectPriority) => {
+  const getPriorityColor = (priority: `${ProjectPriority}`) => {
     switch (priority) {
       case ProjectPriority.HIGH:
         return "bg-destructive/10 text-destructive border-destructive/20";
@@ -21,7 +21,7 @@ export function ProjectsBacklog({ projects }: Props) {
     }
   };
 
-  const getPriorityIcon = (priority: ProjectPriority) => {
+  const getPriorityIcon = (priority: `${ProjectPriority}`) => {
     switch (priority) {
       case ProjectPriority.HIGH:
         return "🔴";
@@ -34,7 +34,7 @@ export function ProjectsBacklog({ projects }: Props) {
     }
   };
 
-  const getStatusColor = (status: ProjectStatus) => {
+  const getStatusColor = (status: `${ProjectStatus}`) => {
     switch (status) {
       case ProjectStatus.IN_PROGRESS:
         return "bg-info/10 text-info border-info/20";
@@ -49,7 +49,7 @@ export function ProjectsBacklog({ projects }: Props) {
     }
   };
 
-  const formatStatus = (status: ProjectStatus) => {
+  const formatStatus = (status: `${ProjectStatus}`) => {
     return status.replace("_", " ").replace(/\b\w/g, (l) => l.toUpperCase());
   };
 

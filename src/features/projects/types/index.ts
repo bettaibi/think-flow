@@ -20,6 +20,6 @@ export interface ProjectProps {
   estimatedTime: number;
   progress: number;
   tags?: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

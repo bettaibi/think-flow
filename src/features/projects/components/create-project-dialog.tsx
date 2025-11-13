@@ -18,6 +18,7 @@ import { Select } from "@/components/Select";
 import { createProject } from "../actions";
 import { useAction } from "@/hooks/useAction";
 import { showAlertMessage } from "@/utils/show-alert-message";
+import { ProjectStatus } from "../types";
 
 const projectSchema = z.object({
   name: z
@@ -31,8 +32,8 @@ const projectSchema = z.object({
     .optional(),
   priority: z.enum(["low", "medium", "high"]),
   estimatedTime: z
-    .string()
-    .max(50, "Estimated time must be less than 50 characters"),
+    .number()
+    .max(100, "Estimated time must be less than 100 hours"),
   tags: z.string().max(200, "Tags must be less than 200 characters").optional(),
 });
 
@@ -59,33 +60,32 @@ export function CreateProjectDialog({
       name: "",
       description: "",
       priority: "medium",
-      estimatedTime: "",
+      estimatedTime: 0,
       tags: "",
     },
   });
 
-  const {execute, loading: isLoading} = useAction(createProject, {
+  const { execute, loading: isLoading } = useAction(createProject, {
     onSuccess: () => {
-      showAlertMessage("Project Created Successfully")
+      showAlertMessage("Project Created Successfully");
       // Reset form and close dialog
       handleClose();
     },
     onError: (error) => {
-      console.log(error)
-      showAlertMessage("Failed to create project", "error")
-    }
+      console.log(error);
+      showAlertMessage("Failed to create project", "error");
+    },
   });
-
 
   const onSubmit = async (data: ProjectFormData) => {
     try {
       // API call
-      const payload= {
+      const payload = {
         ...data,
         progress: 0,
-        status: "pending",
-      }
-      
+        status: ProjectStatus.PENDING,
+      };
+
       await execute(payload);
     } catch (error) {
       console.error("Failed to create project:", error);
@@ -120,7 +120,11 @@ export function CreateProjectDialog({
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" autoComplete="off">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-4"
+          autoComplete="off"
+        >
           <div>
             <Input
               label="Project Name"
@@ -159,8 +163,9 @@ export function CreateProjectDialog({
             <div>
               <Input
                 label="Estimated Time"
-                placeholder="e.g., 2 weeks"
-                {...register("estimatedTime")}
+                placeholder="e.g., 2 hours"
+                type="number"
+                {...register("estimatedTime", { valueAsNumber: true })}
                 error={errors.estimatedTime?.message}
                 disabled={isSubmitting}
               />
@@ -191,7 +196,7 @@ export function CreateProjectDialog({
               disabled={isSubmitting}
               className="flex items-center gap-2"
             >
-              {isSubmitting || isLoading? (
+              {isSubmitting || isLoading ? (
                 <>
                   <div className="w-4 h-4 border-2 border-current border-t-transparent animate-spin rounded-full" />
                   Creating...
