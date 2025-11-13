@@ -13,7 +13,7 @@ interface Props {
 }
 
 export function TrainingsBacklog({ trainings }: Props) {
-  const getPriorityColor = (priority: TrainingPriority) => {
+  const getPriorityColor = (priority: `${TrainingPriority}`) => {
     switch (priority) {
       case TrainingPriority.HIGH:
         return "bg-destructive/10 text-destructive border-destructive/20";
@@ -26,7 +26,7 @@ export function TrainingsBacklog({ trainings }: Props) {
     }
   };
 
-  const getPriorityIcon = (priority: TrainingPriority) => {
+  const getPriorityIcon = (priority: `${TrainingPriority}`) => {
     switch (priority) {
       case TrainingPriority.HIGH:
         return "🔴";
@@ -39,7 +39,7 @@ export function TrainingsBacklog({ trainings }: Props) {
     }
   };
 
-  const getStatusColor = (status: TrainingStatus) => {
+  const getStatusColor = (status: `${TrainingStatus}`) => {
     switch (status) {
       case TrainingStatus.IN_PROGRESS:
         return "bg-info/10 text-info border-info/20";
@@ -54,7 +54,7 @@ export function TrainingsBacklog({ trainings }: Props) {
     }
   };
 
-  const getTypeIcon = (type: TrainingType) => {
+  const getTypeIcon = (type: `${TrainingType}`) => {
     switch (type) {
       case TrainingType.COURSE:
         return "📚";
@@ -71,7 +71,7 @@ export function TrainingsBacklog({ trainings }: Props) {
     }
   };
 
-  const formatStatus = (status: TrainingStatus) => {
+  const formatStatus = (status: `${TrainingStatus}`) => {
     return status.replace("_", " ").replace(/\b\w/g, (l) => l.toUpperCase());
   };
 

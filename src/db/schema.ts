@@ -80,15 +80,45 @@ export const verification = sqliteTable("verification", {
  */
 
 export const project = sqliteTable("project", {
-  id: text("id").primaryKey().$defaultFn(()=> crypto.randomUUID()),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
   name: text("name").notNull(),
   description: text("description"),
-  priority: text("priority", {enum: ["low", "medium", "high"]}).notNull(),
-  status: text("status", {enum: ["pending", "in_progress", "completed", "cancelled"]}).notNull(),
+  priority: text("priority", { enum: ["low", "medium", "high"] }).notNull(),
+  status: text("status", {
+    enum: ["pending", "in_progress", "completed", "cancelled"],
+  }).notNull(),
   estimatedTime: integer("estimated_time").notNull(), // hours
   progress: integer("progress").notNull(),
   tags: text("tags"),
-  createdAt: integer("created_at", { mode: "timestamp_ms" }).$defaultFn(() => new Date()).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
+    .$defaultFn(() => new Date())
+    .notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull(),
+});
+
+export const training = sqliteTable("training", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  title: text("name").notNull(),
+  description: text("description"),
+  priority: text("priority", { enum: ["low", "medium", "high"] }).notNull(),
+  status: text("status", {
+    enum: ["pending", "in_progress", "completed", "cancelled"],
+  }).notNull(),
+  type: text("status", {
+    enum: ["course", "workshop", "certification", "seminar", "bootcamp"],
+  }).notNull(),
+  duration: integer("estimated_time").notNull(), // hours
+  progress: integer("progress").notNull(),
+  tags: text("tags"),
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
+    .$defaultFn(() => new Date())
+    .notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),

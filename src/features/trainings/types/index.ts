@@ -23,12 +23,12 @@ export interface TrainingProps {
   id: string;
   title: string;
   description?: string;
-  createdAt: string;
-  updatedAt: string;
-  tags?: string[];
+  createdAt: Date;
+  updatedAt: Date;
+  tags?: string;
   duration: number; // in hours
   progress: number; // percentage
-  status: TrainingStatus;
-  priority: TrainingPriority;
-  type: TrainingType;
+  status: `${TrainingStatus}`;
+  priority: `${TrainingPriority}`;
+  type: `${TrainingType}`;
 }

@@ -15,6 +15,9 @@ import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { TextArea } from "@/components/TextArea";
 import { Select } from "@/components/Select";
+import { useAction } from "@/hooks/useAction";
+import { createTraining } from "../actions";
+import { showAlertMessage } from "@/utils/show-alert-message";
 
 const trainingSchema = z.object({
   title: z
@@ -26,11 +29,11 @@ const trainingSchema = z.object({
     .string()
     .max(500, "Description must be less than 500 characters")
     .optional(),
-  type: z.enum(["course", "workshop", "certification", "self-study"]),
+  type: z.enum(["course", "workshop", "certification", "seminar", "bootcamp"]),
   priority: z.enum(["low", "medium", "high"]),
-  estimatedDuration: z
-    .string()
-    .max(50, "Estimated duration must be less than 50 characters")
+  duration: z
+    .number()
+    .max(100, "Estimated duration must be less than 100 hours")
     .optional(),
   tags: z.string().max(200, "Tags must be less than 200 characters").optional(),
 });
@@ -40,13 +43,11 @@ type TrainingFormData = z.infer<typeof trainingSchema>;
 interface CreateTrainingDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  onCreate?: (trainingData: TrainingFormData) => void;
 }
 
 export function CreateTrainingDialog({
   isOpen,
   onClose,
-  onCreate,
 }: CreateTrainingDialogProps) {
   const {
     register,
@@ -60,21 +61,25 @@ export function CreateTrainingDialog({
       description: "",
       type: "course",
       priority: "medium",
-      estimatedDuration: "",
+      duration: 0,
       tags: "",
+    },
+  });
+
+  const { execute } = useAction(createTraining, {
+    onSuccess: () => {
+      showAlertMessage("New training has created");
+    },
+    onError: () => {
+      showAlertMessage("Failed to create a new training", "error");
     },
   });
 
   const onSubmit = async (data: TrainingFormData) => {
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      console.log(data);
 
-      onCreate?.(data);
-
-      // Reset form and close dialog
-      reset();
-      onClose();
+      await execute(data);
     } catch (error) {
       console.error("Failed to create training:", error);
     }
@@ -91,7 +96,8 @@ export function CreateTrainingDialog({
     { value: "course", label: "Online Course" },
     { value: "workshop", label: "Workshop" },
     { value: "certification", label: "Certification" },
-    { value: "self-study", label: "Self Study" },
+    { value: "seminar", label: "seminar" },
+    { value: "bootcamp", label: "bootcamp" },
   ];
 
   const priorityOptions = [
@@ -115,7 +121,11 @@ export function CreateTrainingDialog({
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-4"
+          autoComplete="off"
+        >
           <div>
             <Input
               label="Training Title"
@@ -169,9 +179,10 @@ export function CreateTrainingDialog({
           <div>
             <Input
               label="Estimated Duration"
-              placeholder="e.g., 4 hours, 2 weeks"
-              {...register("estimatedDuration")}
-              error={errors.estimatedDuration?.message}
+              placeholder="e.g., 4 hours"
+              type="number"
+              {...register("duration", { valueAsNumber: true })}
+              error={errors.duration?.message}
               disabled={isSubmitting}
             />
           </div>
