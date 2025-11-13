@@ -57,7 +57,7 @@ export function FolderManager({
       onEditFolder({
         ...editingFolder,
         name: folderName.trim(),
-        updatedAt: new Date().toISOString(),
+        updatedAt: new Date(),
       });
     } else {
       onCreateFolder(folderName.trim());

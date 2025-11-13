@@ -4,9 +4,9 @@ import Link from "next/link";
 import { Button, Input, Label, Paper } from "@/components";
 import { signinWithSocial } from "../actions/signin-with-social";
 import { zodResolver } from "@hookform/resolvers/zod";
-import z from "zod";
 import { useForm } from "react-hook-form";
 import { signIn } from "@/lib/auth-client";
+import z from "zod";
 
 const MagicLinkSignInSchema = z.object({
   email: z.email({ message: "Must be a valid email" }),
@@ -97,10 +97,7 @@ export function SignInContainer() {
             </div>
           </div>
 
-          <form
-            className="space-y-4"
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <div className="space-y-1">
               <Label htmlFor="email">Email Address</Label>
               <Input

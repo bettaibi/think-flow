@@ -83,7 +83,7 @@ export const project = sqliteTable("project", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  name: text("name").notNull(),
+  name: text("name").notNull().unique(),
   description: text("description"),
   priority: text("priority", { enum: ["low", "medium", "high"] }).notNull(),
   status: text("status", {
@@ -104,7 +104,7 @@ export const training = sqliteTable("training", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  title: text("name").notNull(),
+  title: text("name").notNull().unique(),
   description: text("description"),
   priority: text("priority", { enum: ["low", "medium", "high"] }).notNull(),
   status: text("status", {
@@ -116,6 +116,38 @@ export const training = sqliteTable("training", {
   duration: integer("estimated_time").notNull(), // hours
   progress: integer("progress").notNull(),
   tags: text("tags"),
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
+    .$defaultFn(() => new Date())
+    .notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull(),
+});
+
+export const folder = sqliteTable("folder", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  name: text("name").notNull().unique(),
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
+    .$defaultFn(() => new Date())
+    .notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull(),
+});
+
+export const stickyNote = sqliteTable("sticky_note", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  title: text("name").notNull(),
+  content: text("content").notNull().default(""),
+  tags: text("tags"),
+  isPinned: integer("is_pinned", { mode: "boolean" }),
+  folderId: text("folder_id")
+    .notNull()
+    .references(() => folder.id),
   createdAt: integer("created_at", { mode: "timestamp_ms" })
     .$defaultFn(() => new Date())
     .notNull(),

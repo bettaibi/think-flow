@@ -46,8 +46,8 @@ export function GoogleDocsNotesList({ notes: initialNotes }: Props) {
       title: "Untitled Note",
       content:
         "Start writing your note here...\n\nYou can use **markdown** syntax:\n- *Italic text*\n- **Bold text**\n- `Code blocks`\n- [Links](https://example.com)\n- # Headers\n\nAnd much more!",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       isPinned: false,
       tags: ["new"],
       folderId: "default", // This should be passed as a prop in a real implementation

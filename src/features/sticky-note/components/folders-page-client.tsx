@@ -16,6 +16,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components";
 import { Button } from "@/components/Button";
+import { formatTimeAgo } from "@/utils/format-time-ago";
 
 interface Props {
   folders: StickyNoteFolderProps[];
@@ -55,23 +56,6 @@ export function FoldersPageClient({ folders, notes }: Props) {
 
   // Filter pinned notes
   const pinnedNotes = notes.filter((note) => note.isPinned);
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffInHours = Math.floor(
-      (now.getTime() - date.getTime()) / (1000 * 60 * 60)
-    );
-
-    if (diffInHours < 1) return "Just now";
-    if (diffInHours < 24) return `${diffInHours}h ago`;
-    const diffInDays = Math.floor(diffInHours / 24);
-    if (diffInDays < 7) return `${diffInDays}d ago`;
-    const diffInWeeks = Math.floor(diffInDays / 7);
-    if (diffInWeeks < 4) return `${diffInWeeks}w ago`;
-    const diffInMonths = Math.floor(diffInWeeks / 4);
-    return `${diffInMonths}mo ago`;
-  };
 
   return (
     <div className="space-y-6">
@@ -125,7 +109,7 @@ export function FoldersPageClient({ folders, notes }: Props) {
                   </div>
                   <div className="flex items-center justify-between w-full mt-1">
                     <span className="text-xs text-muted-foreground">
-                      {formatDate(note.updatedAt)}
+                      {formatTimeAgo(note.updatedAt)}
                     </span>
                     {note.tags && note.tags.length > 0 && (
                       <span className="text-xs text-primary">

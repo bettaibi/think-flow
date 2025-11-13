@@ -10,6 +10,7 @@ import { StickyNoteProps } from "../types";
 import { Paper } from "@/components/Paper";
 import { Button } from "@/components/Button";
 import { MarkdownRenderer } from "./markdown-renderer";
+import { formatTimeAgo } from "@/utils/format-time-ago";
 
 interface Props {
   note: StickyNoteProps;
@@ -20,23 +21,6 @@ interface Props {
 
 export function GoogleDocsNoteCard({ note, onEdit, onDelete, onPin }: Props) {
   const [showActions, setShowActions] = useState(false);
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffInHours = Math.floor(
-      (now.getTime() - date.getTime()) / (1000 * 60 * 60)
-    );
-
-    if (diffInHours < 1) return "Just now";
-    if (diffInHours < 24) return `${diffInHours}h ago`;
-    const diffInDays = Math.floor(diffInHours / 24);
-    if (diffInDays < 7) return `${diffInDays}d ago`;
-    const diffInWeeks = Math.floor(diffInDays / 7);
-    if (diffInWeeks < 4) return `${diffInWeeks}w ago`;
-    const diffInMonths = Math.floor(diffInWeeks / 4);
-    return `${diffInMonths}mo ago`;
-  };
 
   const handleEdit = () => {
     onEdit?.(note);
@@ -83,7 +67,7 @@ export function GoogleDocsNoteCard({ note, onEdit, onDelete, onPin }: Props) {
             )}
           </div>
           <div className="text-xs text-muted-foreground">
-            Updated {formatDate(note.updatedAt)}
+            Updated {formatTimeAgo(note.updatedAt)}
           </div>
         </div>
 

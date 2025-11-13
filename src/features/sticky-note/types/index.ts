@@ -2,16 +2,16 @@ export interface StickyNoteProps {
   id: string;
   title: string;
   content: string;
-  createdAt: string;
-  updatedAt: string;
   tags?: string[];
   isPinned: boolean;
   folderId: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface StickyNoteFolderProps {
   id: string;
   name: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
